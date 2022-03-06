@@ -4,8 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\User;
 use Cookie;
@@ -20,7 +21,6 @@ class AuthController extends Controller
         $this->validate($request, [
             'name' => 'required|min:3|max:50',
             'email' => 'email',
-            'affiliate_id' => str_random(10),
             'password' => 'required|confirmed|min:6',
             'password_confirmation' => '|required|same:password',
         ]);
@@ -28,6 +28,7 @@ class AuthController extends Controller
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
+            //'affiliate_id' => str_random(5),
             'password' => Hash::make($request->password)
         ]);
         $user->save();
@@ -83,9 +84,9 @@ class AuthController extends Controller
                 'last_name' => 'string|min:2|max:45',
                 'phone' => 'string',
                 'country' => 'string',
+                'city' => 'string',
                 'state' => 'string',
-                'address' => 'string|min:2|max:200',
-                'profile_picture' => 'nullable|image|png|jpg'
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]);
                 if($validator->fails()){
                     $error = $validator->errors()->all()[0];
@@ -95,15 +96,15 @@ class AuthController extends Controller
                     $user->first_name = $request->first_name;
                     $user->last_name = $request->last_name;
                     $user->state = $request->state;
+                    $user->city = $request->city;
                     $user->country = $request->country;
                     $user->phone = preg_replace('/^0/','+234',$request->phone);
-                    $user->address = $request->address;
-                    if($request->profile_picture && $request->profile_picture->isValid())
+                    if($request->image && $request->image->isValid())
                     {
-                        $file_name = time().'.'.$request->profile_picture->extension();
-                        $request->profile_picture->move(public_path('images'),$file_name);
+                        $file_name = time().'.'.$request->image->extension();
+                        $request->image->move(public_path('images'),$file_name);
                         $path = "images/$file_name";
-                        $user->profile_picture = $path;
+                        $user->image = $path;
                     }
                             $user->update();
                             return response()->json(['status'=>'true', 'message'=>"profile updated suuccessfully", 'data'=>$user]);

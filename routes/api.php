@@ -26,7 +26,7 @@ Route::namespace('API')->group(function () {
     
     Route::middleware(['auth:api'])->group(function () {
     // User Update and related activity
-       Route::get('details', 'AuthController@details');
+       Route::get('getProfile', 'AuthController@getProfile');
        Route::get('logout', 'AuthController@logout');
     Route::post('updateProfile', 'AuthController@updateProfile');
        Route::post('updateUsertype/{id}', 'AuthController@updateUsertype');
