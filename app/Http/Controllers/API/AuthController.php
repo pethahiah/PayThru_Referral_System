@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\User;
 use Cookie;
@@ -28,11 +29,11 @@ class AuthController extends Controller
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
-            //'affiliate_id' => str_random(5),
+            'affiliate_id' => Str::random(10),
             'password' => Hash::make($request->password)
         ]);
         $user->save();
-        return response()->json(['message' => 'user has been registered'], 200);       
+        return response()->json(['message' => 'user has been registered', 'data'=>$user], 200);       
 }
 
 //login function
