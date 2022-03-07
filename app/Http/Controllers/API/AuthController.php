@@ -20,14 +20,14 @@ class AuthController extends Controller
 
      public function register(Request $request){
         $this->validate($request, [
-            'name' => 'required|min:3|max:50',
+            'username' => 'required|min:3|max:50',
             'email' => 'email',
             'password' => 'required|confirmed|min:6',
             'password_confirmation' => '|required|same:password',
         ]);
 
         $user = new User([
-            'name' => $request->name,
+            'username' => $request->name,
             'email' => $request->email,
             'affiliate_id' => Str::random(10),
             'password' => Hash::make($request->password)
@@ -125,10 +125,11 @@ class AuthController extends Controller
 
     public function updateUsertype(Request $request)
     {
-    $user = User::where('id', $request->user()->id)->firstOrFail(); 
+    $id = Auth::user();
+    $user = User::where('id', $id->id)->first(); 
     $user->usertype = $request->usertype;
-    $user->saveOrFail();
-    return response()->json(['success' => true]);
+    $user->update();
+    return response()->json(['success' => true, 'data'=>$user]);
     }
     
    
