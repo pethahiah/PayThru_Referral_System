@@ -24,13 +24,15 @@ Route::namespace('API')->group(function () {
     Route::post('register', 'AuthController@register');
     Route::get('getCountry', 'AuthController@getCountry');
     Route::get('getState/{state}', 'AuthController@getState');
+    Route::post('forgot', 'ForgotController@forgot');
+    Route::post('reset', 'ForgotController@reset');
    
     
     Route::middleware(['auth:api'])->group(function () {
     // User Update and related activity
        Route::get('getProfile', 'AuthController@getProfile');
        Route::get('logout', 'AuthController@logout');
-    Route::post('updateProfile', 'AuthController@updateProfile');
+        Route::post('updateProfile', 'AuthController@updateProfile');
        Route::post('updateUsertype/{id}', 'AuthController@updateUsertype');
       
        });
