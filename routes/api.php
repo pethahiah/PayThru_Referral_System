@@ -22,6 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::namespace('API')->group(function () {
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
+    Route::get('getCountry', 'AuthController@getCountry');
+    Route::get('getState/{state}', 'AuthController@getState');
    
     
     Route::middleware(['auth:api'])->group(function () {

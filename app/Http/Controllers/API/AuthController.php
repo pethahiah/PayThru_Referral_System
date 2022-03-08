@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\User;
 use Cookie;
+use CountryState;
 
 class AuthController extends Controller
 {
@@ -20,14 +21,14 @@ class AuthController extends Controller
 
      public function register(Request $request){
         $this->validate($request, [
-            'username' => 'required|min:3|max:50',
+            'name' => 'required|min:3|max:50',
             'email' => 'email',
             'password' => 'required|confirmed|min:6',
             'password_confirmation' => '|required|same:password',
         ]);
 
         $user = new User([
-            'username' => $request->name,
+            'name' => $request->name,
             'email' => $request->email,
             'affiliate_id' => Str::random(10),
             'password' => Hash::make($request->password)
@@ -87,6 +88,7 @@ class AuthController extends Controller
                 'country' => 'string',
                 'city' => 'string',
                 'state' => 'string',
+                'usertype' => 'string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]);
                 if($validator->fails()){
@@ -97,6 +99,7 @@ class AuthController extends Controller
                     $user->first_name = $request->first_name;
                     $user->last_name = $request->last_name;
                     $user->state = $request->state;
+                    $user->usertype = $request->usertype;
                     $user->city = $request->city;
                     $user->country = $request->country;
                     $user->phone = preg_replace('/^0/','+234',$request->phone);
@@ -126,12 +129,24 @@ class AuthController extends Controller
     public function updateUsertype(Request $request)
     {
     $id = Auth::user();
-    $user = User::where('id', $id->id)->first(); 
+    $user = User::where('id', $id->id)->firstOrFail(); 
     $user->usertype = $request->usertype;
-    $user->update();
-    return response()->json(['success' => true, 'data'=>$user]);
+    $user->saveOrFail();
+    return response()->json(['success' => true]);
     }
-    
+
+
+    public function getCountry(){
+        $countries = CountryState::getCountries();
+        return response()->json($countries);
+    }
+
+
+    public function getState($state){
+        $states = CountryState::getStates($state);
+        return response()->json($states);
+    }
+   
    
 
 }
