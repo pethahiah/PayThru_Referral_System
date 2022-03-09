@@ -22,7 +22,8 @@ class AuthController extends Controller
      public function register(Request $request){
         $this->validate($request, [
             'name' => 'required|min:3|max:50',
-            'email' => 'email',
+            'email' => 'required|email',
+            'referred_by' => 'string',
             'password' => 'required|confirmed|min:6',
             'password_confirmation' => '|required|same:password',
         ]);
@@ -30,6 +31,7 @@ class AuthController extends Controller
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
+            'referred_by' => $request->referred_by,
             'affiliate_id' => Str::random(10),
             'password' => Hash::make($request->password)
         ]);
