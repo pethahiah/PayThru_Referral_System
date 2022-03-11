@@ -12,7 +12,9 @@ class ReferralController extends Controller
     //
 public function getReferred(){
 
-    $aff = User::where(['usertype' => 'developer', 'referred_by' => Auth::user()->affiliate_id])->get();
+    $aff = User::where(['usertype' => 'developer', 'referred_by' => Auth::user()->affiliate_id])
+    ->select('name', 'email')->get();
+    return response()->json(['message' => 'success', 'data'=>$aff], 200);   
 
     }
 
