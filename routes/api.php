@@ -34,6 +34,7 @@ Route::namespace('API')->group(function () {
        Route::get('logout', 'AuthController@logout');
         Route::post('updateProfile', 'AuthController@updateProfile');
        Route::post('updateUsertype/{id}', 'AuthController@updateUsertype');
+       Route::get('getReferred', 'ReferralController@getReferred');
       
        });
    });       
