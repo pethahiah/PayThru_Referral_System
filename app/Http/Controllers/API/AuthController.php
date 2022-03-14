@@ -27,6 +27,16 @@ class AuthController extends Controller
             'password_confirmation' => '|required|same:password',
         ]);
 
+        $users = User::where('email', $request->email)->get();
+        
+        if(sizeof($users) > 0){
+            // tell user not to duplicate same email
+            return response([
+                'message' => 'user already exists'
+            ], 401);
+        }
+   
+
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
@@ -56,12 +66,7 @@ class AuthController extends Controller
         {
             return response(['message'=> 'Invalid login credentials'], 401);
         }
-        if(Auth::attempt($login->email)->Exist())
-        {
-            return response([
-                'message' => 'user already exists'
-            ]);
-        }
+        
 
         $user = $request->user();
         $accessToken = $user->createToken('Personal Access Token');
