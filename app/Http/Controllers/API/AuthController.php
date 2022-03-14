@@ -56,6 +56,12 @@ class AuthController extends Controller
         {
             return response(['message'=> 'Invalid login credentials'], 401);
         }
+        if(Auth::attempt($login->email)->Exist())
+        {
+            return response([
+                'message' => 'user already exists'
+            ]);
+        }
 
         $user = $request->user();
         $accessToken = $user->createToken('Personal Access Token');
