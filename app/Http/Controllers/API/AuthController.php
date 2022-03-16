@@ -102,7 +102,7 @@ class AuthController extends Controller
                 'city' => 'string',
                 'state' => 'string',
                 'usertype' => 'string',
-                'referred_by' => 'required|min:3|max:12',
+                'referred_by' => 'min:3|max:12',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]);
                 if($validator->fails()){
