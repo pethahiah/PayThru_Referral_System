@@ -28,7 +28,7 @@ class ReferralController extends Controller
 
     public function getReferred(){
         $id = Auth::user();
-        $getAffiliate = user::where('id', $id->id)->where('usertype', 'developer')->where('referred_by', $id->affiliate_id)->select('name', 'email', 'phone', 'created_at')->get();
+        $getAffiliate = user::where('id', $id->id)->where('usertype', 'developer')->where('referred_by', $id->affiliate_id)->select('name', 'email', 'phone','referred_by', 'created_at')->get();
         return response()->json($getAffiliate);
 
     }
