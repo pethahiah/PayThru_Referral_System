@@ -162,13 +162,7 @@ class AuthController extends Controller
         return response()->json($states);
     }
 
-    public function getAffiliateId(){
-        $id = Auth::user();
-        $getAffiliate = user::where('id', $id->id)->where('usertype', 'developer')->select('affiliate_id')->get();
-        return response()->json($getAffiliate);
-
-    }
-   
+    
    
 
 }
