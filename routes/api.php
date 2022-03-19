@@ -36,6 +36,7 @@ Route::namespace('API')->group(function () {
        Route::post('updateUsertype/{id}', 'AuthController@updateUsertype');
        Route::get('getReferred', 'ReferralController@getReferred');
        Route::get('getAffiliateId', 'ReferralController@getAffiliateId');
+       Route::get('getReferredCount', 'ReferralController@getReferredCount');
       
        });
    });       

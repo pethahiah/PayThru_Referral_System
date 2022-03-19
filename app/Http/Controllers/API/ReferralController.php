@@ -10,25 +10,16 @@ use App\User;
 class ReferralController extends Controller
 {
     //
-// public function getReferred(){
 
-//     $aff = User::where(['usertype' => 'developer'])
-//     ->select('name', 'email', 'phone', 'created_at')->get();
-//     return response()->json(['message' => 'success', 'data'=>$aff], 200);   
-
-//     }
-
-
-    public function getAffiliateId(){
-        $id = Auth::user();
-        $getAffiliate = user::where('id', $id->id)->where('usertype', 'developer')->select('affiliate_id')->get();
-        return response()->json($getAffiliate);
+    public function getReferredCount(){
+        $getAffiliateCount = user::where('referred_by', Auth::user()->affiliate_id)->where('usertype', 'developer')->count();
+        return response()->json(['success' => true, 'Data' => $getAffiliateCount]);
 
     }
 
+
     public function getReferred(){
-        $id = Auth::user();
-        $getAffiliate = user::where('id', $id->id)->where('usertype', 'developer')->where('referred_by', $id->affiliate_id)->select('name', 'email', 'phone','created_at')->get();
+        $getAffiliate = user::where('referred_by', Auth::user()->affiliate_id)->where('usertype', 'developer')->select('name', 'email', 'phone')->latest()->get();
         return response()->json($getAffiliate);
 
     }

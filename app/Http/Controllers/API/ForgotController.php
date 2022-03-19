@@ -32,7 +32,7 @@ class ForgotController extends Controller
             'token' => $token, 
             ], function ($message) use ($email) {
                 $message->to($email);
-                $message->subject('Escrow: Reset Password');
+                $message->subject('Paythru: Reset Password');
             }); 
     
         //     return response([
