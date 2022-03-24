@@ -23,6 +23,7 @@ class AuthController extends Controller
         $this->validate($request, [
             'name' => 'required|min:3|max:50',
             'email' => 'required|email',
+            'referred_by' => 'min:3|max:12',
             'password' => 'required|confirmed|min:6',
             'password_confirmation' => '|required|same:password',
         ]);
@@ -41,6 +42,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'affiliate_id' => Str::random(10),
+            'referred_by' => $request->referred_by,
             'password' => Hash::make($request->password)
         ]);
         $user->save();
@@ -101,8 +103,7 @@ class AuthController extends Controller
                 'country' => 'string',
                 'city' => 'string',
                 'state' => 'string',
-                'usertype' => 'string',
-                'referred_by' => 'min:3|max:12',
+                'usertype' => 'string',  
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]);
                 if($validator->fails()){
@@ -115,7 +116,6 @@ class AuthController extends Controller
                     $user->state = $request->state;
                     $user->usertype = $request->usertype;
                     $user->city = $request->city;
-                    $user->referred_by = $request->referred_by;
                     $user->country = $request->country;
                     $user->phone = preg_replace('/^0/','+234',$request->phone);
                     if($request->image && $request->image->isValid())
