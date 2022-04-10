@@ -12,14 +12,14 @@ class ReferralController extends Controller
     //
 
     public function getReferredCount(){
-        $getAffiliateCount = user::where('referred_by', Auth::user()->affiliate_id)->where('usertype', 'developer')->count();
+        $getAffiliateCount = user::where('referred_by', Auth::user()->affiliate_id)->count();
         return response()->json(['success' => true, 'Data' => $getAffiliateCount]);
 
     }
 
 
     public function getReferred(){
-        $getAffiliate = user::where('referred_by', Auth::user()->affiliate_id)->where('usertype', 'developer')->select('name', 'email', 'phone', 'created_at', 'referred_by')->latest()->get();
+        $getAffiliate = user::where('referred_by', Auth::user()->affiliate_id)->select('name', 'email', 'phone', 'created_at', 'referred_by')->latest()->get();
         return response()->json($getAffiliate);
 
     }

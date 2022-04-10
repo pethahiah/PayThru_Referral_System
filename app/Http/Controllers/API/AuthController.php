@@ -15,8 +15,7 @@ use CountryState;
 
 class AuthController extends Controller
 {
-    //
-
+    
      //Register
 
      public function register(Request $request){
@@ -48,8 +47,6 @@ class AuthController extends Controller
         $user->save();
         return response()->json(['message' => 'user has been registered', 'data'=>$user], 200);       
 }
-
-
 
 //login function
 
