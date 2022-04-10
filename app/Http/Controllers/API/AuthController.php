@@ -23,6 +23,7 @@ class AuthController extends Controller
             'name' => 'required|min:3|max:50',
             'email' => 'required|email',
             'referred_by' => 'min:3|max:12',
+            'usertype' => 'string',
             'password' => 'required|confirmed|min:6',
             'password_confirmation' => '|required|same:password',
         ]);
@@ -42,6 +43,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'affiliate_id' => Str::random(10),
             'referred_by' => $request->referred_by,
+            'usertype' => $request->usertype,
             'password' => Hash::make($request->password)
         ]);
         $user->save();
